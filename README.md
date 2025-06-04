@@ -10,7 +10,7 @@ Welcome to my portfolio showcasing projects in AWS, Snowflake, and Azure. As a D
 - **Contact**: 
   - Email: RamanaAvula2025@gmail.com
   - LinkedIn: https://www.linkedin.com/in/Ramana-Avula/
-  - GitHub: github.com/[Ramana-data]
+  - GitHub: https://github.com/Ramana-Data/Data-Architect-Portfolio.git
 
 ## Repository Contents
 This repository contains sample projects demonstrating my expertise in building and optimizing data architectures.
