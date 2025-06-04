@@ -33,6 +33,9 @@ These projects showcase my ability to:
 - Translate business requirements into technical solutions.
 - Data Migrtaions
 
+- ![image](https://github.com/user-attachments/assets/d7a5252e-4f8e-4768-a4db-63d44199630d)
+
+
 Feel free to explore the code and reach out to discuss how I can contribute to your data initiatives!
 
 ## License
