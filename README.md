@@ -5,7 +5,7 @@ Welcome to my portfolio showcasing projects in AWS, Snowflake, and Azure. As a D
 ## About Me
 - Name: Ramana Avula
 - Role: Data Architect
-- Skills: AWS (Redshift, Glue, S3,EC2,Auora RDS,Cloudwatch,Stepfunctions), Snowflake (SnowSQL,, Virtual Warehouses), Azure (Data Factory, Synapse Analytics, Databricks), Data Modeling (Star/Snowflake Schemas), ETL/ELT, Python, SQL
+- Skills: AWS (Redshift, Glue, S3,EC2,Auora RDS,Cloudwatch,Stepfunctions,Lambda), Snowflake (SnowSQL,Snow Pipe,), Azure (Data Factory, Synapse Analytics, Databricks), Data Modeling (Star/Snowflake Schemas), ETL/ELT, Python, SQL
 - Certifications: Azure Data Engineer – Udemy,	Snowflake Pro – Udemy,	Azure Data Factory – Coursera
 - **Contact**: 
   - Email: RamanaAvula2025@gmail.com
