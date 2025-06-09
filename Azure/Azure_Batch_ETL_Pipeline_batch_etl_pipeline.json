@@ -1,0 +1,77 @@
+{
+  "name": "Batch_ETL_Pipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "CopyFromBlobToStaging",
+        "type": "Copy",
+        "inputs": [
+          {
+            "referenceName": "SourceBlobDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "StagingBlobDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "BlobSource",
+            "recursive": true
+          },
+          "sink": {
+            "type": "BlobSink"
+          }
+        }
+      },
+      {
+        "name": "TransformWithDatabricks",
+        "type": "DatabricksNotebook",
+        "dependsOn": [
+          {
+            "activity": "Copy \
+
+FromBlobToStaging",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "typeProperties": {
+          "notebookPath": "/Users/ramana@databricks.com/batch_etl_notebook",
+          "baseParameters": {}
+        }
+      },
+      {
+        "name": "CopyToSQL",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "TransformWithDatabricks",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "inputs": [
+          {
+            "referenceName": "StagingBlobDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "SQLDatabaseDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "BlobSource"
+          },
+          "sink": {
+            "type": "SqlSink",
+            "writeBatchSize": 10000
+          }
+        }
+      }
+    ],

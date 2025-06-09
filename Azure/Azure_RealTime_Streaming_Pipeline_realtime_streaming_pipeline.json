@@ -1,0 +1,49 @@
+{
+  "name": "RealTime_Streaming_Pipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "StreamFromEventHubs",
+        "type": "Copy",
+        "inputs": [
+          {
+            "referenceName": "EventHubsDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "DataLakeDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "EventHubSource"
+          },
+          "sink": {
+            "type": "ParquetSink"
+          },
+          "dataIntegrationUnits": 4
+        }
+      },
+      {
+        "name": "FilterOutliers",
+        "type": "DataFlow",
+        "dependsOn": [
+          {
+            "activity": "StreamFromEventHubs",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "typeProperties": {
+          "dataFlow": {
+            "referenceName": "FilterOutliersDataFlow",
+            "type": "DataFlowReference"
+          }
+        }
+      }
+    ],
+    "annotations": ["Real-Time Streaming", "Azure Data Factory"]
+  }
+}

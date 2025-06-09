@@ -1,0 +1,80 @@
+{
+  "name": "Hybrid_Integration_Pipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "CopyFromSQLServer",
+        "type": "Copy",
+        "inputs": [
+          {
+            "referenceName": "OnPremSQLDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "StagingBlobDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "SqlServerSource",
+            "query": "SELECT * FROM sales_data"
+          },
+          "sink": {
+            "type": "BlobSink"
+          }
+        }
+      },
+      {
+        "name": "StandardizeData",
+        "type": "DataFlow",
+        "dependsOn": [
+          {
+            "activity": "CopyFromSQLServer",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "typeProperties": {
+          "dataFlow": {
+            "referenceName": "StandardizeDataFlow",
+            "type": "DataFlowReference"
+          }
+        }
+      },
+      {
+        "name": "CopyToSynapse",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "StandardizeData",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "inputs": [
+          {
+            "referenceName": "StagingBlobDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "SynapseDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "BlobSource"
+          },
+          "sink": {
+            "type": "AzureSqlSink",
+            "writeBatchSize": 10000
+          }
+        }
+      }
+    ],
+    "annotations": ["Hybrid Integration", "Azure Data Factory"]
+  }
+}
