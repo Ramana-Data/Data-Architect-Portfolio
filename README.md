@@ -1,45 +1,122 @@
-# Data Architect Portfolio - Ramana Avula
+Data Architect Portfolio
 
-Welcome to my portfolio showcasing projects in AWS, Snowflake, and Azure. As a Data Architect with 10 years of experience, I specialize in designing and architech scalable data pipelines, data warehouses, and AI-ready data models to drive business insights. This repository demonstrates my expertise in cloud-native data solutions.
+Welcome to my Data Architect Portfolio! I'm Ramana, a passionate data architect with expertise in designing scalable, efficient, and secure data solutions. This repository showcases my projects, tutorials, and contributions to the data community, highlighting my skills in cloud architecture, data modeling, ETL pipelines, and data governance.
 
-## About Me
-- Name: Ramana Avula
-- Role: Data Architect
-- Skills: AWS (Redshift, Glue, S3,EC2,Auora RDS,Cloudwatch,Stepfunctions,Lambda), Snowflake (SnowSQL,Snow Pipe,), Azure (Data Factory, Synapse Analytics, Databricks), Data Modeling (Star/Snowflake Schemas), ETL/ELT, Python, SQL
-- Certifications: Azure Data Engineer – Udemy,	Snowflake Pro – Udemy,	Azure Data Factory – Coursera
-- **Contact**: 
-  - Email: RamanaAvula2025@gmail.com
-  - LinkedIn: https://www.linkedin.com/in/Ramana-Avula/
-  - GitHub: https://github.com/Ramana-Data/Data-Architect-Portfolio.git
+About Me
 
-## Repository Contents
-This repository contains sample projects demonstrating my expertise in building and optimizing data architectures.
+As a data architect, I specialize in building robust data ecosystems using cloud platforms (AWS, Azure, Snowflake), data modeling, and orchestration tools like Airflow. My goal is to create solutions that drive insights while ensuring performance, scalability, and compliance. This portfolio serves as a hub to share my work and knowledge with the data community.
 
-###Documentation
-- File: `docs/portfolio_summary.md`
-- Description: Detailed explanations of project architectures, design decisions, and business impacts.
+Table of Contents
+Projects
 
-## How to Use This Repository
-- **Explore Projects**: Review the code and documentation in the 'snowflake/', 'aws/', and 'azure/' folders.
-- **Run Locally**:
-  - Clone the repository: `git clone https://github.com/[Ramana-Data]/Data-Architect-Portfolio.git`
-  - Follow setup instructions in each project folder (e.g., Snowflake SQL requires a Snowflake account, AWS scripts need AWS CLI).
-- **Contact**: Reach out via RamanaAvula2025@gmail.com for questions or collaboration.
+AWS Data Pipeline
+Azure Data Lakehouse
+Data Modeling: Retail Star Schema
+ETL Pipelines with Airflow
+Snowflake Data Warehouse
+Tutorials
+Contact
 
-## Why This Portfolio?
-These projects showcase my ability to:
-- Design scalable, cost-efficient data architectures on AWS, Snowflake, and Azure.
-- Optimize performance for large-scale analytics and AI/ML workloads.
-- Translate business requirements into technical solutions.
-- Data Migrtaions
+Projects
 
- ![image](https://github.com/user-attachments/assets/d7a5252e-4f8e-4768-a4db-63d44199630d)
+AWS Data Pipeline
+
+A scalable data pipeline using AWS S3, Glue, Redshift, and QuickSight for processing and visualizing e-commerce data.
 
 
-Feel free to explore the code and reach out to discuss how I can contribute to your data initiatives!
 
-## License
-This repository is licensed under the [MIT License](LICENSE) for open-source sharing.
 
----
-*Last updated: June 2025*
+
+Details: AWS/README.md
+
+
+
+Tools: AWS S3, Glue, Redshift, QuickSight, Python
+
+Azure Data Lakehouse
+
+A modern data lakehouse architecture using Azure Data Lake, Databricks, and Synapse Analytics for unified analytics.
+
+
+
+
+
+Details: Azure/README.md
+
+
+
+Tools: Azure Data Lake, Databricks, Synapse Analytics, PySpark
+
+Data Modeling: Retail Star Schema
+
+A star schema design for a retail database, optimized for analytical queries.
+
+
+
+
+
+Details: [Data Modeling/README.md](Data Modeling/README.md)
+
+
+
+Tools: PostgreSQL, dbdiagram.io
+
+ETL Pipelines with Airflow
+
+An ETL workflow orchestrated with Apache Airflow to process and transform data.
+
+
+
+
+
+Details: [ETL Pipelines/README.md](ETL Pipelines/README.md)
+
+
+
+Tools: Airflow, Python, PostgreSQL
+
+Snowflake Data Warehouse
+
+A cloud-native data warehouse implementation using Snowflake for high-performance analytics.
+
+
+
+
+
+Details: Snowflake/README.md
+
+
+
+Tools: Snowflake, SQL
+
+Tutorials
+
+Explore guides and tutorials on key data architecture concepts:
+
+
+
+
+
+Data Governance Principles
+
+
+
+Star Schema Design Basics (New!)
+
+Contact
+
+
+
+
+
+GitHub: Ramana-Data
+
+
+
+LinkedIn: Your LinkedIn Profile (Update with your link)
+
+
+
+Email: Your Email (Update with your email)
+
+Feel free to explore, provide feedback, or collaborate! See CONTRIBUTING.md for how to contribute.
