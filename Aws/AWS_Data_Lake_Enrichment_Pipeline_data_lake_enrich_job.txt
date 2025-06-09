@@ -1,0 +1,49 @@
+import sys
+from awsglue.transforms import *
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from awsglue.context import GlueContext
+from awsglue.job import Job
+from awsglue.dynamicframe import DynamicFrame
+
+# Initialize Glue context
+args = getResolvedOptions(sys.argv, ['JOB_NAME'])
+sc = SparkContext()
+glueContext = GlueContext(sc)
+spark = glueContext.spark_session
+job = Job(glueContext)
+job.init(args['JOB_NAME'], args)
+
+# Read Parquet from S3
+parquet_data = glueContext.create_dynamic_frame.from_catalog(
+    database="data_lake_db",
+    table_name="parquet_data",
+    transformation_ctx="parquet_data"
+)
+
+# Read DynamoDB data
+dynamodb_data = glueContext.create_dynamic_frame.from_catalog(
+    database="data_lake_db",
+    table_name="customer_data",
+    transformation_ctx="dynamodb_data"
+)
+
+# Join data on customer_id
+joined_data = Join.apply(
+    parquet_data,
+    dynamodb_data,
+    "customer_id",
+    "customer_id",
+    transformation_ctx="joined_data"
+)
+
+# Write enriched data to S3
+glueContext.write_dynamic_frame.from_options(
+    frame=joined_data,
+    connection_type="s3",
+    connection_options={"path": "s3://data-lake/enriched/"},
+    format="parquet",
+    transformation_ctx="s3_output"
+)
+
+job.commit()

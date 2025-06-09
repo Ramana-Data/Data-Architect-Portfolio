@@ -1,0 +1,44 @@
+import sys
+from awsglue.transforms import *
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from awsglue.context import GlueContext
+from awsglue.job import Job
+from pyspark.sql.functions import current_timestamp
+from awsglue.dynamicframe import DynamicFrame
+
+# Initialize Glue context
+args = getResolvedOptions(sys.argv, ['JOB_NAME'])
+sc = SparkContext()
+glueContext = GlueContext(sc)
+spark = glueContext.spark_session
+job = Job(glueContext)
+job.init(args['JOB_NAME'], args)
+
+# Read JSON from S3 via Glue Data Catalog
+source_data = glueContext.create_dynamic_frame.from_catalog(
+    database="ecommerce_db",
+    table_name="json_data",
+    transformation_ctx="source_data"
+)
+
+# Flatten nested JSON
+flattened_data = source_data.flatten()
+
+# Convert to DataFrame for enrichment
+df = flattened_data.toDF()
+df_enriched = df.withColumn("ingestion_timestamp", current_timestamp())
+
+# Convert back to DynamicFrame
+enriched_data = DynamicFrame.fromDF(df_enriched, glueContext, "enriched_data")
+
+# Write to Redshift
+glueContext.write_dynamic_frame.from_jdbc_conf(
+    frame=enriched_data,
+    catalog_connection="redshift_connection",
+    connection_options={"dbtable": "public.sales_data", "database": "ecommerce"},
+    redshift_tmp_dir="s3://temp-dir/",
+    transformation_ctx="redshift_output"
+)
+
+job.commit()

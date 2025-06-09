@@ -1,0 +1,40 @@
+import sys
+from awsglue.transforms import *
+from awsglue.utils import getResolvedOptions
+from pyspark.context import SparkContext
+from awsglue.context import GlueContext
+from awsglue.job import Job
+from pyspark.sql.functions import sum, col
+
+# Initialize Glue context
+args = getResolvedOptions(sys.argv, ['JOB_NAME'])
+sc = SparkContext()
+glueContext = GlueContext(sc)
+spark = glueContext.spark_session
+job = Job(glueContext)
+job.init(args['JOB_NAME'], args)
+
+# Read incremental CSV from S3 with bookmarks
+source_data = glueContext.create_dynamic_frame.from_catalog(
+    database="sales_db",
+    table_name="csv_data",
+    transformation_ctx="source_data",
+    additional_options={"jobBookmarkKeys": ["order_id"], "jobBookmarkKeysSortOrder": "asc"}
+)
+
+# Convert to DataFrame for aggregation
+df = source_data.toDF()
+df_aggregated = df.groupBy("region").agg(sum("amount").alias("total_sales"))
+
+# Convert back to DynamicFrame
+aggregated_data = DynamicFrame.fromDF(df_aggregated, glueContext, "aggregated_data")
+
+# Write to Aurora
+glueContext.write_dynamic_frame.from_jdbc_conf(
+    frame=aggregated_data,
+    catalog_connection="aurora_connection",
+    connection_options={"dbtable": "public.sales_summary", "database": "sales"},
+    transformation_ctx="aurora_output"
+)
+
+job.commit()
