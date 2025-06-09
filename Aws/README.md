@@ -1,7 +1,7 @@
 AWS Data Pipeline
 Overview
 
-Objective: Build a scalable data pipeline to process e-commerce transaction data, store it in a data warehouse, and visualize insights.
+Objective: Build a scalable data pipeline to process data, store it in a data warehouse, and visualize insights.
 Tools Used: AWS S3, AWS Glue, Amazon Redshift, Amazon QuickSight, Python.
 
 Architecture
@@ -25,7 +25,7 @@ Data Storage: Transformed data is loaded into Redshift tables using a star schem
 Visualization: QuickSight connects to Redshift to create sales dashboards.
 
 Sample Glue Script
-See glue_etl.py for a sample ETL script that processes transaction data.
+See glue_etl.py for a sample ETL script that processes data.
 Results
 
 Reduced data processing time by 40% using Glue's serverless ETL.
@@ -34,8 +34,6 @@ Enabled real-time sales insights via QuickSight dashboards.
 How to Run
 
 Set up an AWS account and configure S3, Glue, Redshift, and QuickSight.
-Upload sample data to S3 (e.g., from Kaggle E-commerce Dataset).
+Upload sample data to S3.
 Run the Glue script (glue_etl.py) to process data.
 Query Redshift and visualize results in QuickSight.
-
-Note: Ensure AWS CLI is configured with appropriate IAM permissions.
