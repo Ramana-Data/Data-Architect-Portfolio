@@ -1,0 +1,66 @@
+{
+  "name": "BlobToSqlETLPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "CopyFromBlobToSQL",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "7.00:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "storeSettings": {
+              "type": "AzureBlobStorageReadSettings"
+            }
+          },
+          "sink": {
+            "type": "SqlSink",
+            "writeBatchSize": 10000,
+            "writeBatchTimeout": "00:10:00"
+          },
+          "enableStaging": false
+        },
+        "inputs": [
+          {
+            "referenceName": "BlobInputDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "SqlOutputDataset",
+            "type": "DatasetReference"
+          }
+        ]
+      },
+      {
+        "name": "TransformSQLData",
+        "type": "SqlServerStoredProcedure",
+        "dependsOn": [
+          {
+            "activity": "CopyFromBlobToSQL",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "storedProcedureName": "sp_TransformData"
+        },
+        "linkedServiceName": {
+          "referenceName": "AzureSqlDatabaseLinkedService",
+          "type": "LinkedServiceReference"
+        }
+      }
+    ],
+    "annotations": [],
+    "lastPublishTime": "2025-06-09T00:00:00Z"
+  }
+}

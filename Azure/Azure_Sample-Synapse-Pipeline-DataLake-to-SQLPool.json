@@ -1,0 +1,57 @@
+{
+  "name": "DataLakeToSQLPoolPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "DataFlowActivity",
+        "type": "DataFlow",
+        "dependsOn": [],
+        "typeProperties": {
+          "dataflow": {
+            "referenceName": "ETLDataFlow",
+            "type": "DataFlowReference"
+          },
+          "staging": {
+            "linkedService": {
+              "referenceName": "AzureDataLakeStorageLinkedService",
+              "type": "LinkedServiceReference"
+            }
+          }
+        }
+      },
+      {
+        "name": "LoadToSQLPool",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "DataFlowActivity",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "ParquetSource"
+          },
+          "sink": {
+            "type": "SqlDWSink"
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "CuratedParquetDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "SynapseSQLDataset",
+            "type": "DatasetReference"
+          }
+        ]
+      }
+    ],
+    "annotations": []
+  }
+}

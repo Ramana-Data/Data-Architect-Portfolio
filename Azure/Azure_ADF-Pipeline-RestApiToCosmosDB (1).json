@@ -1,0 +1,63 @@
+{
+  "name": "RestApiToCosmosDBPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "CopyFromRestToBlob",
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource"
+          },
+          "sink": {
+            "type": "BlobSink"
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "RestApiDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "BlobOutputDataset",
+            "type": "DatasetReference"
+          }
+        ]
+      },
+      {
+        "name": "CopyFromBlobToCosmosDB",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "CopyFromRestToBlob",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "BlobSource"
+          },
+          "sink": {
+            "type": "CosmosDbSqlApiSink"
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "BlobOutputDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "CosmosDBOutputDataset",
+            "type": "DatasetReference"
+          }
+        ]
+      }
+    ]
+  }
+}

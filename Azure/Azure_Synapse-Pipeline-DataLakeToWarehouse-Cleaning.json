@@ -1,0 +1,49 @@
+{
+  "name": "DataLakeToWarehouseCleaningPipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "DataFlowCleaning",
+        "type": "DataFlow",
+        "typeProperties": {
+          "dataflow": {
+            "referenceName": "CleaningDataFlow",
+            "type": "DataFlowReference"
+          }
+        }
+      },
+      {
+        "name": "CopyCleanedToWarehouse",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "DataFlowCleaning",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "ParquetSource"
+          },
+          "sink": {
+            "type": "SqlDWSink"
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "CleanedParquetDataset",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "WarehouseDataset",
+            "type": "DatasetReference"
+          }
+        ]
+      }
+    ]
+  }
+}
