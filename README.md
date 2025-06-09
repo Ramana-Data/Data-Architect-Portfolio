@@ -2,7 +2,7 @@ Data Architect Portfolio
 
 Welcome to my Data Architect Portfolio! I'm Ramana, a passionate data architect with expertise in designing scalable, efficient, and secure data solutions. This repository showcases my projects, tutorials, and contributions to the data community, highlighting my skills in cloud architecture, data modeling, ETL pipelines, and data governance.
 
-## About Me
+## About Me 
 
 As a data architect, I specialize in building robust data ecosystems using cloud platforms (AWS, Azure, Snowflake), data modeling, and orchestration tools like Airflow. My goal is to create solutions that drive insights while ensuring performance, scalability, and compliance. This portfolio serves as a hub to share my work and knowledge with the data community.
 
