@@ -1,0 +1,65 @@
+-- Create database and schema
+CREATE DATABASE IF NOT EXISTS RETAIL_DB;
+USE DATABASE RETAIL_DB;
+CREATE SCHEMA IF NOT EXISTS PUBLIC;
+
+-- Create file format for CSV
+CREATE OR REPLACE FILE FORMAT csv_format
+  TYPE = 'CSV'
+  FIELD_DELIMITER = ','
+  SKIP_HEADER = 1;
+
+-- Create S3 stage
+CREATE OR REPLACE STAGE retail_stage
+  URL = 's3://retail-data/csv/'
+  STORAGE_INTEGRATION = s3_int
+  FILE_FORMAT = csv_format;
+
+-- Create dimension tables
+CREATE OR REPLACE TABLE dim_customer (
+  customer_id INT PRIMARY KEY,
+  customer_name STRING,
+  region STRING
+);
+
+CREATE OR REPLACE TABLE dim_product (
+  product_id INT PRIMARY KEY,
+  product_name STRING,
+  category STRING
+);
+
+CREATE OR REPLACE TABLE dim_date (
+  date_id INT PRIMARY KEY,
+  order_date DATE,
+  year INT,
+  quarter INT,
+  month INT
+);
+
+-- Create fact table
+CREATE OR REPLACE TABLE fact_sales (
+  sale_id INT PRIMARY KEY,
+  customer_id INT,
+  product_id INT,
+  date_id INT,
+  amount DECIMAL(10,2),
+  FOREIGN KEY (customer_id) REFERENCES dim_customer(customer_id),
+  FOREIGN KEY (product_id) REFERENCES dim_product(product_id),
+  FOREIGN KEY (date_id) REFERENCES dim_date(date_id)
+);
+
+-- Load data from S3
+COPY INTO dim_customer FROM @retail_stage/customers.csv;
+COPY INTO dim_product FROM @retail_stage/products.csv;
+COPY INTO dim_date FROM @retail_stage/dates.csv;
+COPY INTO fact_sales FROM @retail_stage/sales.csv;
+
+-- Sample analytical query
+SELECT 
+  p.category,
+  SUM(s.amount) AS total_sales,
+  COUNT(s.sale_id) AS transaction_count
+FROM fact_sales s
+JOIN dim_product p ON s.product_id = p.product_id
+GROUP BY p.category
+ORDER BY total_sales DESC;

@@ -1,0 +1,56 @@
+-- Create database and schema
+USE DATABASE RETAIL_DB;
+USE SCHEMA PUBLIC;
+
+-- Create file format for JSON
+CREATE OR REPLACE FILE FORMAT json_format
+  TYPE = 'JSON'
+  STRIP_OUTER_ARRAY = TRUE;
+
+-- Create S3 stage
+CREATE OR REPLACE STAGE streaming_stage
+  URL = 's3://retail-data/json/'
+  STORAGE_INTEGRATION = s3_int
+  FILE_FORMAT = json_format;
+
+-- Create staging table for raw JSON
+CREATE OR REPLACE TABLE raw_streaming_data (
+  raw_data VARIANT
+);
+
+-- Create Snowpipe
+CREATE OR REPLACE PIPE streaming_pipe
+  AUTO_INGEST = TRUE
+  AS
+  COPY INTO raw_streaming_data
+  FROM @streaming_stage;
+
+-- Create final table for transformed data
+CREATE OR REPLACE TABLE streaming_sales (
+  order_id INT,
+  customer_id INT,
+  amount DECIMAL(10,2),
+  order_timestamp TIMESTAMP
+);
+
+-- Create task for transformation
+CREATE OR REPLACE TASK transform_streaming_data
+  WAREHOUSE = compute_wh
+  SCHEDULE = '5 MINUTE'
+  AS
+  INSERT INTO streaming_sales
+  SELECT 
+    raw_data:order_id::INT AS order_id,
+    raw_data:customer_id::INT AS customer_id,
+    raw_data:amount::DECIMAL(10,2) AS amount,
+    raw_data:timestamp::TIMESTAMP AS order_timestamp
+  FROM raw_streaming_data
+  WHERE NOT EXISTS (
+    SELECT 1 FROM streaming_sales WHERE order_id = raw_data:order_id::INT
+  );
+
+-- Start task
+ALTER TASK transform_streaming_data RESUME;
+
+-- Monitor Snowpipe
+SELECT SYSTEM$PIPE_STATUS('streaming_pipe');

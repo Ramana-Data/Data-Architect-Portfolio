@@ -1,0 +1,44 @@
+-- Use database and schema
+USE DATABASE RETAIL_DB;
+USE SCHEMA PUBLIC;
+
+-- Create role for external partners
+CREATE OR REPLACE ROLE partner_role;
+GRANT USAGE ON DATABASE RETAIL_DB TO ROLE partner_role;
+GRANT USAGE ON SCHEMA PUBLIC TO ROLE partner_role;
+
+-- Create secure view with row-level security
+CREATE OR REPLACE SECURE VIEW sales_view
+  AS
+  SELECT 
+    sale_id,
+    CASE 
+      WHEN CURRENT_ROLE() = 'PARTNER_ROLE' AND region = 'North' THEN customer_id
+      ELSE NULL 
+    END AS customer_id,
+    product_id,
+    date_id,
+    amount
+  FROM fact_sales
+  JOIN dim_customer ON fact_sales.customer_id = dim_customer.customer_id
+  WHERE 
+    CASE 
+      WHEN CURRENT_ROLE() = 'PARTNER_ROLE' THEN region = 'North'
+      ELSE TRUE 
+    END;
+
+-- Grant access to secure view
+GRANT SELECT ON sales_view TO ROLE partner_role;
+
+-- Create data share
+CREATE OR REPLACE SHARE sales_share;
+GRANT USAGE ON DATABASE RETAIL_DB TO SHARE sales_share;
+GRANT USAGE ON SCHEMA PUBLIC TO SHARE sales_share;
+GRANT SELECT ON sales_view TO SHARE sales_share;
+
+-- Add partner account to share
+ALTER SHARE sales_share ADD ACCOUNTS = <partner_account_id>;
+
+-- Sample query as partner
+SET ROLE partner_role;
+SELECT * FROM sales_view;
