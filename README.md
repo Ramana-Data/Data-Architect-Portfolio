@@ -1,7 +1,5 @@
 Data Architect Portfolio
 
-Welcome to m# Data Architect Portfolio
-
 Welcome to my Data Architect Portfolio! I'm Ramana, a passionate data architect with expertise in designing scalable, efficient, and secure data solutions. This repository showcases my projects, tutorials, and contributions to the data community, highlighting my skills in cloud architecture, data modeling, ETL pipelines, and data governance.
 
 ## About Me
