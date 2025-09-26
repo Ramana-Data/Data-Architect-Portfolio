@@ -1,0 +1,45 @@
+{
+  "Comment": "ETL Orchestration: S3 -> Glue -> Lambda",
+  "StartAt": "GlueETLJob",
+  "States": {
+    "GlueETLJob": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "your-glue-etl-job"
+      },
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "HandleGlueError"
+        }
+      ],
+      "Next": "LambdaProcess"
+    },
+    "HandleGlueError": {
+      "Type": "Fail",
+      "Cause": "Glue Job Failed"
+    },
+    "LambdaProcess": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "your-lambda-etl-function",
+        "Payload": {
+          "input.$": "$"
+        }
+      },
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "HandleLambdaError"
+        }
+      ],
+      "End": true
+    },
+    "HandleLambdaError": {
+      "Type": "Fail",
+      "Cause": "Lambda Failed"
+    }
+  }
+}

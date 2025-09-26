@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: ETL Pipeline with Glue, Lambda, and Step Functions
+
+Resources:
+  GlueJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: sample-glue-etl-job
+      Role: arn:aws:iam::123456789012:role/GlueRole
+      Command:
+        Name: glueetl
+        ScriptLocation: s3://your-bucket/scripts/glue_etl_sample.py
+      MaxRetries: 1
+
+  LambdaETLFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: sample-lambda-etl
+      Handler: lambda_etl_s3_trigger.lambda_handler
+      Role: arn:aws:iam::123456789012:role/LambdaRole
+      Code:
+        S3Bucket: your-bucket
+        S3Key: scripts/lambda_etl_s3_trigger.zip
+      Runtime: python3.9
+      Timeout: 60
+
+  ETLStateMachine:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      DefinitionS3Location: s3://your-bucket/scripts/stepfunctions_etl_workflow.json
+      RoleArn: arn:aws:iam::123456789012:role/StepFunctionsRole
+
+Outputs:
+  GlueJobName:
+    Description: "Glue Job Name"
+    Value: !Ref GlueJob
+  LambdaFunctionName:
+    Description: "Lambda Function Name"
+    Value: !Ref LambdaETLFunction
+  StateMachineName:
+    Description: "Step Functions State Machine"
+    Value: !Ref ETLStateMachine
