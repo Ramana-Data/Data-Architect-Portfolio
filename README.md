@@ -1,76 +1,52 @@
-Data Architect Portfolio
+# Data Architect Portfolio
 
-Welcome to my Data Architect Portfolio! I'm Ramana, a passionate data architect with expertise in designing scalable, efficient, and secure data solutions. This repository showcases my projects, tutorials, and contributions to the data community, highlighting my skills in cloud architecture, data modeling, ETL pipelines, and data governance.
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Last Updated](https://img.shields.io/github/last-commit/Ramana-Data/Data-Architect-Portfolio)
+![Repo Size](https://img.shields.io/github/repo-size/Ramana-Data/Data-Architect-Portfolio)
 
-## About Me 
+## Overview
 
-As a data architect, I specialize in building robust data ecosystems using cloud platforms (AWS, Azure, Snowflake), data modeling, and orchestration tools like Airflow. My goal is to create solutions that drive insights while ensuring performance, scalability, and compliance. This portfolio serves as a hub to share my work and knowledge with the data community.
+Welcome to the Data Architect Portfolio!  
+This repository showcases my skills, experience, and projects as a Data Architect, including work with data modeling, ETL pipelines, database design, and cloud data solutions.
 
-## Table of Contents
+## Purpose
 
-- Projects
-  - AWS Data Pipeline
-  - Azure Data Lakehouse
-  - Data Modeling: Retail Star Schema
-  - ETL Pipelines with Airflow
-  - Snowflake Data Warehouse
-- Tutorials
-- Contact
+- Demonstrate expertise in data architecture and engineering
+- Present real-world projects and solutions
+- Provide a hub for collaboration, learning, and sharing best practices
 
-## Projects
+## Technologies Used
 
-### AWS Data Pipeline
+- Python
+- SQL
+- Cloud platforms (AWS, Azure, GCP)
+- Data modeling tools
+- ETL frameworks
 
-A scalable data pipeline using AWS S3, Glue, Redshift, and QuickSight for processing and visualizing e-commerce data.
+## Repository Structure
 
-- **Details**: AWS/README.md
-- **Tools**: AWS S3, Glue, Redshift, QuickSight, Python
+- `/projects` — Portfolio projects and case studies  
+- `/notebooks` — Jupyter notebooks for demos and analysis  
+- `/docs` — Documentation and architecture diagrams  
+- `/data` — Sample datasets and schemas  
 
-### Azure Data Lakehouse
+## How to Use
 
-A modern data lakehouse architecture using Azure Data Lake, Databricks, and Synapse Analytics for unified analytics.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Ramana-Data/Data-Architect-Portfolio.git
+   ```
+2. Explore the folders for sample projects and documentation.
+3. See individual README files in project folders for running code or demos.
 
-- **Details**: Azure/README.md
-- **Tools**: Azure Data Lake, Databricks, Synapse Analytics, PySpark
+## License
 
-### Data Modeling: Retail Star Schema
+This repository is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-A star schema design for a retail database, optimized for analytical queries.
+## Contributing
 
-- **Details**: \[Data Modeling/README.md\](Data Modeling/README.md)
-- **Tools**: PostgreSQL, dbdiagram.io
-
-### ETL Pipelines with Airflow
-
-An ETL workflow orchestrated with Apache Airflow to process and transform data.
-
-- **Details**: \[ETL Pipelines/README.md\](ETL Pipelines/README.md)
-- **Tools**: Airflow, Python, PostgreSQL
-
-### Snowflake Data Warehouse
-
-A cloud-native data warehouse implementation using Snowflake for high-performance analytics.
-
-- **Details**: Snowflake/README.md
-- **Tools**: Snowflake, SQL
-
-## Tutorials
-
-Explore guides and tutorials on key data architecture concepts:
-
-- Data Governance Principles
-- Star Schema Design Basics *(New!)*
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Contact
 
-- **GitHub**: [Ramana-Data](https://github.com/Ramana-Data/Data-Architect-Portfolio.git)
-- **LinkedIn**: [Your LinkedIn Profile *(Update with your link)*](https://www.linkedin.com/in/Ramana-Avula/)
-- **Email**: RamanaAvula2025@gmail.com
-
-Feel free to explore, provide feedback, or collaborate! See CONTRIBUTING.md for how to contribute.
-
----
-
-*Licensed under MIT License*y Data Architect Portfolio! I'm Ramana, a passionate data architect with expertise in designing scalable, efficient, and secure data solutions. This repository showcases my projects, tutorials, and contributions to the data community, highlighting my skills in cloud architecture, data modeling, ETL pipelines, and data governance.
-
-A
+Questions or feedback? Open an issue or reach out via GitHub.
